@@ -1,3 +1,6 @@
+// polyfill
+import "./polyfill.js";
+
 // constants
 import { HASH_ALGORITHM, VALID_HASH_ALGORITHMS, type ZencryptOptions } from './constants.js';
 

@@ -13,7 +13,7 @@ Simple and strong encryption using WebCrypto under the hood
 
 ## Usage
 
-This package is distributed as ESM only.
+This package is distributed as ESM only, it polyfills the webcrypto module into global if not already defined.
 
 ```javascript
 import { decrypt, encrypt } from "zencrypt";
