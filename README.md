@@ -10,12 +10,10 @@ Simple and strong encryption using WebCrypto under the hood
   - [decrypt](#decrypt)
   - [generateSecret](#generatesecret)
   - [hash](#hash)
-- [Support](#support)
-  - [Browser](#browser)
-  - [NodeJS](#nodejs)
-- [Development](#development)
 
 ## Usage
+
+This package is distributed as ESM only.
 
 ```javascript
 import { decrypt, encrypt } from "zencrypt";
