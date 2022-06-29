@@ -2,15 +2,7 @@ export const ALGORITHM: string = 'AES-GCM';
 
 export const CHARSET: string = 'utf-8';
 
-export const IS_BROWSER = typeof window !== 'undefined';
-
-export const GLOBAL = IS_BROWSER ? window : globalThis;
-
-export const CRYPTO: Window['crypto'] = GLOBAL.crypto as any as Window['crypto'];
-
 export const CRYPTO_KEY_PROPERTIES: string[] = ['algorithm', 'extractable', 'type', 'usages'];
-
-export const CRYPTO_SUBTLE = CRYPTO.subtle;
 
 export const HASH_ALGORITHM: string = 'SHA-256';
 

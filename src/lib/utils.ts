@@ -1,8 +1,6 @@
 import {
 	ALGORITHM,
-	CRYPTO,
 	CRYPTO_KEY_PROPERTIES,
-	CRYPTO_SUBTLE,
 	DEFAULT_OPTIONS,
 	HASH_ALGORITHM,
 	HASH_BYTE_INCREMENT,
@@ -108,7 +106,7 @@ export const subtleDecrypt = (
 	const ivHex = encrypted.slice(0, options.ivSize * UNHEX_INDEX_MULTIPLIER);
 	const textHex = encrypted.slice(options.ivSize * UNHEX_INDEX_MULTIPLIER);
 
-	return CRYPTO_SUBTLE.decrypt(
+	return crypto.subtle.decrypt(
 		{
 			iv: getTypedArray(getBufferFromHexString(ivHex)),
 			name: ALGORITHM,
@@ -120,16 +118,16 @@ export const subtleDecrypt = (
 };
 
 export const subtleDigest = (encodedKey: any, algorithm: string) =>
-	CRYPTO_SUBTLE.digest({ name: algorithm.toUpperCase() }, encodedKey);
+	crypto.subtle.digest({ name: algorithm.toUpperCase() }, encodedKey);
 
 export const subtleEncrypt = async (
 	cryptoKey: CryptoKey,
 	text: string,
 	options: Pick<ZencryptOptions, 'ivSize' | 'charset'>
 ) => {
-	const iv = CRYPTO.getRandomValues(getTypedArray(options.ivSize));
+	const iv = crypto.getRandomValues(getTypedArray(options.ivSize));
 
-	const buffer = await CRYPTO_SUBTLE.encrypt(
+	const buffer = await crypto.subtle.encrypt(
 		{
 			iv,
 			name: ALGORITHM,
@@ -147,7 +145,7 @@ export const subtleEncrypt = async (
 };
 
 export const subtleGenerateKey = (options: Pick<ZencryptOptions, 'keyLength'>) =>
-	CRYPTO_SUBTLE.generateKey(
+	crypto.subtle.generateKey(
 		{
 			length: options.keyLength,
 			name: ALGORITHM
@@ -157,7 +155,7 @@ export const subtleGenerateKey = (options: Pick<ZencryptOptions, 'keyLength'>) =
 	);
 
 export const subtleImportKey = (hash: ArrayBufferLike, type: KeyUsage) =>
-	CRYPTO_SUBTLE.importKey('raw', hash, ALGORITHM, false, [type]);
+	crypto.subtle.importKey('raw', hash, ALGORITHM, false, [type]);
 
 export const getCryptoHash = (secret: any, algorithm: string, options: ZencryptOptions) =>
 	Promise.resolve(

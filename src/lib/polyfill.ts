@@ -1,6 +1,12 @@
-import { IS_BROWSER, GLOBAL } from './constants.js';
+export async function polyfill_crypto() {
+	if (typeof globalThis === 'undefined') {
+		return;
+	}
 
-if (!IS_BROWSER && !GLOBAL['crypto']) {
+	if ('crypto' in globalThis) {
+		return;
+	}
+
 	Object.defineProperty(globalThis, 'crypto', {
 		enumerable: true,
 		configurable: true,

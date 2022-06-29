@@ -1,5 +1,6 @@
 // polyfill
-import "./polyfill.js";
+import { polyfill_crypto } from './polyfill.js';
+polyfill_crypto();
 
 // constants
 import { HASH_ALGORITHM, VALID_HASH_ALGORITHMS, type ZencryptOptions } from './constants.js';
@@ -63,12 +64,13 @@ export const encrypt = async (
 		const cryptoKey = await getCryptoKey(secret, 'encrypt', options);
 		const { buffer, iv } = await subtleEncrypt(cryptoKey, options.stringify(value), options);
 		return `${getHexStringForCrypt(iv)}${getHexStringForCrypt(buffer)}`;
-	} catch (error: any) {	
+	} catch (error: any) {
 		throw throwsProcessing('encrypt')(error);
 	}
 };
 
-export const generateSecret = (options : Partial<ZencryptOptions> = {}) => subtleGenerateKey(getNormalizedOptions(options));
+export const generateSecret = (options: Partial<ZencryptOptions> = {}) =>
+	subtleGenerateKey(getNormalizedOptions(options));
 
 export const hash = async (
 	value: any,
