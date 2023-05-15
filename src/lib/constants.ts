@@ -56,6 +56,8 @@ export interface ZencryptOptions {
 	keyLength: number;
 	parse: (input: string) => any;
 	stringify: (value: any) => string;
+	deserialize?: (input: Uint8Array) => any;
+	serialize?: (value: any) => Uint8Array;
 }
 
 export const DEFAULT_OPTIONS: ZencryptOptions = {

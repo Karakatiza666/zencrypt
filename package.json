@@ -4,9 +4,9 @@
 	"scripts": {
 		"dev": "svelte-kit dev",
 		"build": "svelte-kit build",
-		"package": "svelte-kit package",
+		"package": "svelte-package",
+		"prepare": "svelte-package",
 		"preview": "svelte-kit preview",
-		"prepare": "svelte-kit sync",
 		"test": "playwright test",
 		"check": "svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
@@ -14,10 +14,20 @@
 		"format": "prettier --write --plugin-search-dir=. .",
 		"package:publish": "pnpm package && cd package && npm publish"
 	},
+	"exports": {
+		"./package.json": "./package.json",
+		"./constants": "./dist/constants.js",
+		".": "./dist/index.js",
+		"./polyfill": "./dist/polyfill.js",
+		"./utils": "./dist/utils.js"
+	},
+	"files": [ "./dist" ],
+	"types": "./dist/index",
 	"devDependencies": {
 		"@playwright/test": "^1.22.2",
 		"@sveltejs/adapter-auto": "next",
-		"@sveltejs/kit": "next",
+		"@sveltejs/kit": "^1.16.3",
+		"@sveltejs/package": "^2.0.2",
 		"@types/node": "^18.0.0",
 		"prettier": "^2.6.2",
 		"prettier-plugin-svelte": "^2.7.0",

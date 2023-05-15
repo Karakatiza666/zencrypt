@@ -34,8 +34,9 @@ export const decrypt = async (
 	try {
 		const cryptoKey = await getCryptoKey(secret, 'decrypt', options);
 		const buffer = await subtleDecrypt(cryptoKey, encrypted, options);
-		const text = new TextDecoder(options.charset).decode(buffer);
-		return options.parse(text);
+		return options.deserialize
+			? options.deserialize(new Uint8Array(buffer))
+			: options.parse(new TextDecoder(options.charset).decode(buffer));
 	} catch (error: any) {
 		throw throwsProcessing('decrypt')(error);
 	}
@@ -58,7 +59,7 @@ export const encrypt = async (
 
 	try {
 		const cryptoKey = await getCryptoKey(secret, 'encrypt', options);
-		const { buffer, iv } = await subtleEncrypt(cryptoKey, options.stringify(value), options);
+		const { buffer, iv } = await subtleEncrypt(cryptoKey, value, options);
 		return `${getHexStringForCrypt(iv)}${getHexStringForCrypt(buffer)}`;
 	} catch (error: any) {
 		throw throwsProcessing('encrypt')(error);

@@ -12,6 +12,8 @@ import {
 	type ZencryptOptions
 } from './constants.js';
 
+const textEncoder = new TextEncoder()
+
 export const getObjectClass = (value: any) => Object.prototype.toString.call(value);
 
 export const getTypedArray = (buffer: any) => new Uint8Array(buffer);
@@ -122,8 +124,8 @@ export const subtleDigest = (encodedKey: any, algorithm: string) =>
 
 export const subtleEncrypt = async (
 	cryptoKey: CryptoKey,
-	text: string,
-	options: Pick<ZencryptOptions, 'ivSize' | 'charset'>
+	value: unknown,
+	options: ZencryptOptions
 ) => {
 	const iv = crypto.getRandomValues(getTypedArray(options.ivSize));
 
@@ -135,7 +137,9 @@ export const subtleEncrypt = async (
 		},
 		cryptoKey,
 		// @ts-ignore
-		new TextEncoder(options.charset).encode(text)
+		options.serialize
+			? options.serialize(value)
+			: textEncoder.encode(options.stringify(value))
 	);
 
 	return {
@@ -164,7 +168,7 @@ export const getCryptoHash = (secret: any, algorithm: string, options: ZencryptO
 			: isArrayBuffer(secret)
 			? getTypedArray(secret)
 			: // @ts-ignore
-			  new TextEncoder(options.charset).encode(getNormalizedSecret(secret, options))
+			  textEncoder.encode(getNormalizedSecret(secret, options))
 	)
 		.then((encodedKey) => subtleDigest(encodedKey, algorithm))
 		.then(getTypedArray);
